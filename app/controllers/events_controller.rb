@@ -60,8 +60,9 @@ class EventsController < ApplicationController
   end
 
   def update
-    start_time = DateTime.parse(params[:start_time])
-    end_time = DateTime.parse(params[:end_time])
+    @event = Event.find(params[:id])
+    start_time = @event['start_time']
+    end_time = @event['end_time']
     if !check_availability(start_time, end_time)
       render json: {
         status: 'ERROR',
@@ -69,7 +70,6 @@ class EventsController < ApplicationController
         data: nil},
         status: :conflict
     end
-    @event = Event.find(params[:id])
     participants = @event[:participants_id]
     max_participants = @event[:party_size]
     participants_count = @event[:participants_count]
