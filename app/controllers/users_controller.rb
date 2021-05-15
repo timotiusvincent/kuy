@@ -25,14 +25,19 @@ class UsersController < ApplicationController
       render json: {
         status: 'NOT FOUND',
         message: 'User Not Found',
-        data: @user},
+        data: nil},
         status: :not_found
     else
       @avatar = @user.avatar
       render json: {
         status: 'SUCCESS',
         message: 'User Found',
-        data: @user,
+        name: @user['name'],
+        email: @user['email'],
+        gender: @user['gender'],
+        fun_fact: @user['fun_fact'],
+        access_token: @user['access_token'],
+        #data: @user,
         avatar: url_for(@user.avatar)},
         status: :ok
     end
@@ -45,14 +50,19 @@ class UsersController < ApplicationController
       render json: {
         status: 'NOT FOUND',
         message: 'User Not Found',
-        data: @user},
+        data: nil},
         status: :not_found
     else
       @avatar = @user.avatar
       render json: {
         status: 'SUCCESS',
         message: 'User Found',
-        data: @user,
+        name: @user['name'],
+        email: @user['email'],
+        gender: @user['gender'],
+        fun_fact: @user['fun_fact'],
+        access_token: @user['access_token'],
+        #data: @user,
         avatar: url_for(@user.avatar)},
         status: :ok
     end
