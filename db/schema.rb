@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(version: 2021_05_15_003221) do
     t.integer "from_id"
     t.text "notes", limit: 500
     t.integer "stars"
-    t.boolean "is_skip"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["from_id"], name: "index_reviews_on_from_id"

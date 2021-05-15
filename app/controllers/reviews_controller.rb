@@ -21,8 +21,8 @@ class ReviewsController < ApplicationController
       @reviews = @reviews.filter_from_user(params[:from_user])
       @reviews = @reviews.filter_by_nil(nil)
       render json: {
-        status: 'SUCCESS',
-        message: 'Loaded Pending Reviews',
+        status: "SUCCESS",
+        message: "Loaded Pending Reviews",
         data: @reviews},
         status: :ok
     end
