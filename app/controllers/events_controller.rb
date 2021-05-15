@@ -29,31 +29,32 @@ class EventsController < ApplicationController
         message: 'Time conflict with existing event',
         data: nil},
         status: :conflict
-    end
-    @event = Event.new(event_params)
-    @event['start_time'] = start_time
-    @event['end_time'] = end_time
-    @event['participants_id'] = ''
-    @event['participants_count'] = 1
-    @event['status'] = 0
-    if @event.save
-      user_id = params[:host_id]
-      @active_event = UserActiveEvent.new()
-      @active_event[:user_id] = user_id
-      @active_event[:event_id] = @event[:id]
-      @active_event.save!
-      EventCompleteJob.set(wait_until: @event['end_time']).perform_later(@event)
-      render json: {
-        status: 'SUCCESS',
-        message: 'Event saved',
-        data: @event},
-        status: :created
     else
-      render json: {
-        status: 'ERROR',
-        message: 'Event not saved',
-        data: @event.errors},
-        status: :unprocessable_entity
+      @event = Event.new(event_params)
+      @event['start_time'] = start_time
+      @event['end_time'] = end_time
+      @event['participants_id'] = ''
+      @event['participants_count'] = 1
+      @event['status'] = 0
+      if @event.save
+        user_id = params[:host_id]
+        @active_event = UserActiveEvent.new()
+        @active_event[:user_id] = user_id
+        @active_event[:event_id] = @event[:id]
+        @active_event.save!
+        EventCompleteJob.set(wait_until: @event['end_time']).perform_later(@event)
+        render json: {
+          status: 'SUCCESS',
+          message: 'Event saved',
+          data: @event},
+          status: :created
+      else
+        render json: {
+          status: 'ERROR',
+          message: 'Event not saved',
+          data: @event.errors},
+          status: :unprocessable_entity
+      end
     end
   end
 
