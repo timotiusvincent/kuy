@@ -118,7 +118,12 @@ class EventsController < ApplicationController
       event = Event.find(event_id)
       start_time = event[:start_time]
       end_time = event[:end_time]
-      if (new_end > start_time || new_start < end_time)
+      puts(new_start)
+      puts(new_end)
+      puts(start_time)
+      puts(end_time)
+      puts(new_end > start_time && new_start < end_time)
+      if (new_end > start_time && new_start < end_time)
         return false
       end
     end
