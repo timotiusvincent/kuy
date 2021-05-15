@@ -41,7 +41,7 @@ class ReviewsController < ApplicationController
   def create
     @user = User.find(params[:user_id])
     @review = @user.reviews.new(review_params)
-    if params[:user_id] == params[:from_user]
+    if params[:user_id] == params[:from_id]
       render json: {
         status: 'ERROR',
         message: 'Cannot rate yourself',
@@ -104,7 +104,7 @@ class ReviewsController < ApplicationController
   private
 
   def review_params
-    params.permit(:user_id, :from_user, :notes, :stars)
+    params.permit(:user_id, :from_id, :notes, :stars)
   end
 
   """
