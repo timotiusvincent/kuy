@@ -38,6 +38,7 @@ class EventsController < ApplicationController
       @active_event[:user_id] = user_id
       @active_event[:event_id] = @event[:id]
       @active_event.save!
+      EventCompleteJob.set(wait_until: @event['end_time']).perform_later(@event)
       render json: {
         status: 'SUCCESS',
         message: 'Event saved',

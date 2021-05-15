@@ -5,7 +5,7 @@ class CreateReviews < ActiveRecord::Migration[6.1]
       t.integer :from_id
       t.text :notes, limit: 500
       t.integer :stars
-      t.boolean :is_skip
+      # t.boolean :is_skip
 
       t.timestamps
     end

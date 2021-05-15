@@ -68,7 +68,7 @@ class UsersController < ApplicationController
       @user.avatar.attach(params[:avatar])
       @user.save!
     end
-    if @user.update(user_params)
+    if @user.update(user_update_params)
       render json: {
         status: 'SUCCESS',
         message: 'User updated',
@@ -88,5 +88,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:access_token, :name, :gender, :fun_fact, :email)
+  end
+
+  def user_update_params
+    params.permit(:name, :fun_fact)
   end
 end

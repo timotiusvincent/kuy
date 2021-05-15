@@ -6,7 +6,7 @@ class ReviewsController < ApplicationController
       @reviews = @user.reviews.all
       # @reviews = @reviews.filter_by_user(params[:user_id])
       # filter without is_skip
-      @reviews = @reviews.filter_skipped(True)
+      # @reviews = @reviews.filter_skipped(True)
       @reviews = @reviews.filter_by_stars(nil)
       average_stars = calc_average_stars(@reviews)
       render json: {
@@ -16,6 +16,7 @@ class ReviewsController < ApplicationController
         average_stars: average_stars},
         status: :ok
     end
+    '''
     if params[:from_user].present?
       @reviews = @reviews.filter_from_user(params[:from_user])
       @reviews = @reviews.filter_by_nil(nil)
@@ -25,6 +26,7 @@ class ReviewsController < ApplicationController
         data: @reviews},
         status: :ok
     end
+    '''
   end
 
   def show
@@ -37,26 +39,32 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    # create empty review when event is completed
     @user = User.find(params[:user_id])
     @review = @user.reviews.new(review_params)
-    @review[:stars] = nil
-    @review[:is_skip] = False
-    if @review.save
-      render json: {
-        status: 'SUCCESS',
-        message: 'Review saved',
-        data: @review},
-        status: :created
-    else
+    if params[:user_id] == params[:from_user]:
       render json: {
         status: 'ERROR',
-        message: 'Review not saved',
-        data: @review.errors},
-        status: :unprocessable_entity
+        message: 'Cannot rate yourself',
+        data: nil},
+        status: :forbidden
+    else:
+      if @review.save
+        render json: {
+          status: 'SUCCESS',
+          message: 'Review saved',
+          data: @review},
+          status: :created
+      else
+        render json: {
+          status: 'ERROR',
+          message: 'Review not saved',
+          data: @review.errors},
+          status: :unprocessable_entity
+      end
     end
   end
 
+  """
   def update
     # update stars and text or set is_skip
     # if stars is not null, can't update
@@ -91,16 +99,19 @@ class ReviewsController < ApplicationController
         status: :unprocessable_entity
     end
   end
+  """
 
   private
 
   def review_params
-    params.permit(:user_id, :from_user)
+    params.permit(:user_id, :from_user, :notes, :stars)
   end
 
+  """
   def update_review_params
     params.permit(:notes, :stars)
   end
+  """
 
   def calc_average_stars(reviews)
     count = 0

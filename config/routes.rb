@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   resources :events
   resources :users
   resources :reviews
+  resources :user_active_events
 end
