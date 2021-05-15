@@ -1,9 +1,10 @@
 class EventsController < ApplicationController
   def index
     @events = Event.all
-    @events = @events.filter_by_status(0) # show only waiting events
+    # @events = @events.filter_by_status(0) # show only waiting events
     @events = @events.filter_by_city(params[:city]) if params[:city].present?
     @events = @events.filter_by_place(params[:place_id]) if params[:place_id].present?
+    @events = @events.filter_by_time()
     render json: {
       status: 'SUCCESS',
       message: 'Loaded Events',
@@ -42,7 +43,7 @@ class EventsController < ApplicationController
         @active_event[:user_id] = user_id
         @active_event[:event_id] = @event[:id]
         @active_event.save!
-        EventCompleteJob.set(wait_until: @event['end_time']).perform_later(@event)
+        # EventCompleteJob.set(wait_until: @event['end_time']).perform_later(@event)
         render json: {
           status: 'SUCCESS',
           message: 'Event saved',
