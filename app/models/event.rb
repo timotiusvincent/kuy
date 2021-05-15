@@ -2,7 +2,9 @@ class Event < ApplicationRecord
   enum status: [ :waiting, :in_progress, :completed ]
 
   has_many :users
-  belongs_to :user
+  #belongs_to :user
+  # update belongs to
+  # User.events.new instead of event.new
 
   scope :filter_by_status, -> (status) { where status: status }
   scope :filter_by_city, -> (city) { where city: city }

@@ -21,6 +21,7 @@ class EventsController < ApplicationController
   end
 
   def create
+    """
     if !check_availability(params[:start_time], params[:end_time])
       render json: {
         status: 'ERROR',
@@ -28,13 +29,14 @@ class EventsController < ApplicationController
         data: @event.errors},
         status: :conflict
     end
+    """
     @event = Event.new(event_params)
-    @event['participants_id'] = ''
-    @event['participants_count'] = 1
-    @event['status'] = 0
+    #@event['participants_id'] = ''
+    #@event['participants_count'] = 1
+    #@event['status'] = 0
     if @event.save
-      user_id = params[:host_id]
-      UserActiveEvent.create!(user_id, @event[:id])
+      #user_id = params[:host_id]
+      #UserActiveEvent.create!(user_id, @event[:id])
       render json: {
         status: 'SUCCESS',
         message: 'Event saved',
@@ -105,9 +107,9 @@ class EventsController < ApplicationController
       start_time = event[:start_time]
       end_time = event[:end_time]
       if new_end > start_time || new_start < end_time
-        return False
+        return false
       end
     end
-    return True
+    return true
   end
 end

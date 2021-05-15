@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2021_05_15_003221) do
     t.string "access_token"
     t.string "name"
     t.integer "gender"
+    t.string "email"
     t.text "fun_fact", limit: 500
     t.text "past_events"
     t.datetime "created_at", precision: 6, null: false

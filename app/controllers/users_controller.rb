@@ -21,20 +21,41 @@ class UsersController < ApplicationController
   def show
     @user = User.find_by(access_token: params[:access_token]) if params[:access_token].present?
     @user = User.find(params[:id]) if params[:id].present?
-    @avatar = @user.avatar
     if @user.nil?
       render json: {
         status: 'NOT FOUND',
         message: 'User Not Found',
         data: @user},
         status: :not_found
+    else
+      @avatar = @user.avatar
+      render json: {
+        status: 'SUCCESS',
+        message: 'User Found',
+        data: @user,
+        avatar: url_for(@user.avatar)},
+        status: :ok
     end
-    render json: {
-      status: 'SUCCESS',
-      message: 'User Found',
-      data: @user,
-      avatar: url_for(@user.avatar)},
-      status: :ok
+  end
+
+  def index
+    @user = User.find_by(access_token: params[:access_token]) if params[:access_token].present?
+    @user = User.find(params[:id]) if params[:id].present?
+    if @user.nil?
+      render json: {
+        status: 'NOT FOUND',
+        message: 'User Not Found',
+        data: @user},
+        status: :not_found
+    else
+      @avatar = @user.avatar
+      render json: {
+        status: 'SUCCESS',
+        message: 'User Found',
+        data: @user,
+        avatar: url_for(@user.avatar)},
+        status: :ok
+    end
   end
 
   def update

@@ -2,7 +2,9 @@ class ReviewsController < ApplicationController
   def index
     # filter by user
     if params[:user_id].present?
-      @reviews = @reviews.filter_by_user(params[:user_id])
+      @user = User.find(params[:user_id])
+      @reviews = @user.reviews.all
+      # @reviews = @reviews.filter_by_user(params[:user_id])
       # filter without is_skip
       @reviews = @reviews.filter_skipped(True)
       @reviews = @reviews.filter_by_stars(nil)
@@ -36,22 +38,23 @@ class ReviewsController < ApplicationController
 
   def create
     # create empty review when event is completed
-      @review = Review.new(review_params)
-      @review[:stars] = nil
-      @review[:is_skip] = False
-      if @review.save
-        render json: {
-          status: 'SUCCESS',
-          message: 'Review saved',
-          data: @review},
-          status: :created
-      else
-        render json: {
-          status: 'ERROR',
-          message: 'Review not saved',
-          data: @review.errors},
-          status: :unprocessable_entity
-      end
+    @user = User.find(params[:user_id])
+    @review = @user.reviews.new(review_params)
+    @review[:stars] = nil
+    @review[:is_skip] = False
+    if @review.save
+      render json: {
+        status: 'SUCCESS',
+        message: 'Review saved',
+        data: @review},
+        status: :created
+    else
+      render json: {
+        status: 'ERROR',
+        message: 'Review not saved',
+        data: @review.errors},
+        status: :unprocessable_entity
+    end
   end
 
   def update
