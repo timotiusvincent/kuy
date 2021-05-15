@@ -6,7 +6,6 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.integer :gender
       t.string :email
       t.text :fun_fact, limit: 500
-      t.text :past_events
 
       t.timestamps
     end

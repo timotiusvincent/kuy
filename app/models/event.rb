@@ -8,5 +8,5 @@ class Event < ApplicationRecord
 
   scope :filter_by_status, -> (status) { where status: status }
   scope :filter_by_city, -> (city) { where city: city }
-  scope :filter_by_place, -> (place_id) { where place_id: place }
+  scope :filter_by_place, -> (place_id) { where place_id: place_id }
 end
