@@ -47,7 +47,7 @@ class ReviewsController < ApplicationController
         message: 'Cannot rate yourself',
         data: nil},
         status: :forbidden
-    else:
+    else
       if @review.save
         render json: {
           status: 'SUCCESS',
