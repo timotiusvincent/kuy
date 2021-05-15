@@ -27,7 +27,7 @@ class EventsController < ApplicationController
       render json: {
         status: 'ERROR',
         message: 'Time conflict with existing event',
-        data: @event.errors},
+        data: nil},
         status: :conflict
     end
     @event = Event.new(event_params)
