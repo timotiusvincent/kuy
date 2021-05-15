@@ -6,16 +6,23 @@ class ReviewsController < ApplicationController
       # filter without is_skip
       @reviews = @reviews.filter_skipped(True)
       @reviews = @reviews.filter_by_stars(nil)
+      average_stars = calc_average_stars(@reviews)
+      render json: {
+        status: 'SUCCESS',
+        message: 'Loaded User Reviews',
+        data: @reviews,
+        average_stars: average_stars},
+        status: :ok
     end
     if params[:from_user].present?
       @reviews = @reviews.filter_from_user(params[:from_user])
       @reviews = @reviews.filter_by_nil(nil)
+      render json: {
+        status: 'SUCCESS',
+        message: 'Loaded Pending Reviews',
+        data: @reviews},
+        status: :ok
     end
-    render json: {
-      status: 'SUCCESS',
-      message: 'Loaded Reviews',
-      data: @reviews},
-      status: :ok
   end
 
   def show
@@ -90,5 +97,16 @@ class ReviewsController < ApplicationController
 
   def update_review_params
     params.permit(:notes, :stars)
+  end
+
+  def calc_average_stars(reviews)
+    count = 0
+    sum = 0.0
+    reviews.each do |review|
+      sum += review[:stars]
+      count += 1
+    end
+    avg = sum / count
+    return avg
   end
 end
