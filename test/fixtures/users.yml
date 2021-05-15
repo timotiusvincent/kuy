@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  access_token: MyString
+  name: MyString
+  gender: 1
+  fun_fact: MyText
+  past_events: MyText
+
+two:
+  access_token: MyString
+  name: MyString
+  gender: 1
+  fun_fact: MyText
+  past_events: MyText
