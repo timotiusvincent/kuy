@@ -21,7 +21,9 @@ class EventsController < ApplicationController
   end
 
   def create
-    if !check_availability(params[:start_time], params[:end_time])
+    start_time = DateTime.parse(params[:start_time])
+    end_time = DateTime.parse(params[:end_time])
+    if !check_availability(start_time, end_time)
       render json: {
         status: 'ERROR',
         message: 'Time conflict with existing event',
@@ -29,6 +31,8 @@ class EventsController < ApplicationController
         status: :conflict
     end
     @event = Event.new(event_params)
+    @event['start_time'] = start_time
+    @event['end_time'] = end_time
     @event['participants_id'] = ''
     @event['participants_count'] = 1
     @event['status'] = 0
@@ -54,7 +58,9 @@ class EventsController < ApplicationController
   end
 
   def update
-    if !check_availability(params[:start_time], params[:end_time])
+    start_time = DateTime.parse(params[:start_time])
+    end_time = DateTime.parse(params[:end_time])
+    if !check_availability(start_time, end_time)
       render json: {
         status: 'ERROR',
         message: 'Time conflict with existing event',
@@ -96,7 +102,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.permit(:place_id, :host_id, :start_time, :end_time,
+    params.permit(:place_id, :host_id,
       :party_size, :city, :notes, :minimum_rating)
   end
 
