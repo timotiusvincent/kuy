@@ -30,6 +30,8 @@ class UsersController < ApplicationController
         status: :not_found
     else
       @avatar = @user.avatar
+      @review = @user.reviews
+      average_stars = calc_average_stars(@reviews)
       render json: {
         status: 'SUCCESS',
         success: true,
@@ -40,6 +42,7 @@ class UsersController < ApplicationController
         gender: @user['gender'],
         fun_fact: @user['fun_fact'],
         access_token: @user['access_token'],
+        rating: average_stars,
         #data: @user,
         avatar: url_for(@user.avatar)},
         status: :ok
@@ -58,6 +61,8 @@ class UsersController < ApplicationController
         status: :not_found
     else
       @avatar = @user.avatar
+      @review = @user.reviews
+      average_stars = calc_average_stars(@reviews)
       render json: {
         status: 'SUCCESS',
         success: true,
@@ -68,6 +73,7 @@ class UsersController < ApplicationController
         gender: @user['gender'],
         fun_fact: @user['fun_fact'],
         access_token: @user['access_token'],
+        rating: average_stars,
         #data: @user,
         avatar: url_for(@user.avatar)},
         status: :ok
@@ -108,5 +114,16 @@ class UsersController < ApplicationController
 
   def user_update_params
     params.permit(:name, :fun_fact)
+  end
+
+  def calc_average_stars(reviews)
+    count = 0
+    sum = 0.0
+    reviews.each do |review|
+      sum += review[:stars]
+      count += 1
+    end
+    avg = sum / count
+    return avg
   end
 end
