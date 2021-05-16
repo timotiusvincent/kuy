@@ -3,7 +3,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     @user.avatar.attach(params[:avatar]) if params[:avatar].present?
     if @user.save
-      avatar = url_for(@user.avatar) if @user.avatar.attached? else nil
+      avatar = @user.avatar.attached? url_for(@user.avatar) : nil
       render json: {
         status: 'SUCCESS',
         message: 'User saved',
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
       @avatar = @user.avatar
       @reviews = @user.reviews
       average_stars = calc_average_stars(@reviews)
-      avatar = url_for(@user.avatar) if @user.avatar.attached? else nil
+      avatar = @user.avatar.attached? url_for(@user.avatar) : nil
       render json: {
         status: 'SUCCESS',
         success: true,
@@ -65,7 +65,7 @@ class UsersController < ApplicationController
       @avatar = @user.avatar
       @reviews = @user.reviews
       average_stars = calc_average_stars(@reviews)
-      avatar = url_for(@user.avatar) if @user.avatar.attached? else nil
+      avatar = @user.avatar.attached? url_for(@user.avatar) : nil
       render json: {
         status: 'SUCCESS',
         success: true,
@@ -94,7 +94,7 @@ class UsersController < ApplicationController
       @user.save!
     end
     if @user.update(user_update_params)
-      avatar = url_for(@user.avatar) if @user.avatar.attached? else nil
+      avatar = @user.avatar.attached? url_for(@user.avatar) : nil
       render json: {
         status: 'SUCCESS',
         message: 'User updated',
