@@ -32,6 +32,7 @@ class UsersController < ApplicationController
       render json: {
         status: 'SUCCESS',
         message: 'User Found',
+        id: @user['id'],
         name: @user['name'],
         email: @user['email'],
         gender: @user['gender'],
@@ -57,6 +58,7 @@ class UsersController < ApplicationController
       render json: {
         status: 'SUCCESS',
         message: 'User Found',
+        id: @user['id'],
         name: @user['name'],
         email: @user['email'],
         gender: @user['gender'],
