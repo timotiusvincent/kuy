@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
-    @user.avatar.attach(params[:avatar])
+    @user.avatar.attach(params[:avatar]) if params[:avatar].present?
     if @user.save
       render json: {
         status: 'SUCCESS',
