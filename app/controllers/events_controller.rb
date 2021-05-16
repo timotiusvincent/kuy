@@ -82,7 +82,7 @@ class EventsController < ApplicationController
         data: @event},
         status: :bad_request
     end
-    @event[:participants_id] = participants + ', ' + params[:user_id]
+    @event[:participants_id] = participants + ', ' + params[:user_id].to_s
     @event[:participants_count] = participants_count + 1
     if @event.save
       @active_event = UserActiveEvent.new()
