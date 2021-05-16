@@ -24,6 +24,7 @@ class UsersController < ApplicationController
     if @user.nil?
       render json: {
         status: 'NOT FOUND',
+        success: false,
         message: 'User Not Found',
         data: nil},
         status: :not_found
@@ -31,6 +32,7 @@ class UsersController < ApplicationController
       @avatar = @user.avatar
       render json: {
         status: 'SUCCESS',
+        success: true,
         message: 'User Found',
         id: @user['id'],
         name: @user['name'],
@@ -50,6 +52,7 @@ class UsersController < ApplicationController
     if @user.nil?
       render json: {
         status: 'NOT FOUND',
+        success: false,
         message: 'User Not Found',
         data: nil},
         status: :not_found
@@ -57,6 +60,7 @@ class UsersController < ApplicationController
       @avatar = @user.avatar
       render json: {
         status: 'SUCCESS',
+        success: true,
         message: 'User Found',
         id: @user['id'],
         name: @user['name'],
