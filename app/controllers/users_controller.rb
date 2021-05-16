@@ -30,7 +30,7 @@ class UsersController < ApplicationController
         status: :not_found
     else
       @avatar = @user.avatar
-      @review = @user.reviews
+      @reviews = @user.reviews
       average_stars = calc_average_stars(@reviews)
       render json: {
         status: 'SUCCESS',
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
         status: :not_found
     else
       @avatar = @user.avatar
-      @review = @user.reviews
+      @reviews = @user.reviews
       average_stars = calc_average_stars(@reviews)
       render json: {
         status: 'SUCCESS',
