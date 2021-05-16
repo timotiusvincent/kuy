@@ -117,6 +117,9 @@ class UsersController < ApplicationController
   end
 
   def calc_average_stars(reviews)
+    if reviews.nil?
+      return 0.0
+    end
     count = 0
     sum = 0.0
     reviews.each do |review|
