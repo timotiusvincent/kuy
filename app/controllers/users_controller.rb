@@ -1,14 +1,14 @@
 class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
-    @user.avatar.attach(nil)
     @user.avatar.attach(params[:avatar]) if params[:avatar].present?
     if @user.save
+      avatar = url_for(@user.avatar) if @user.avatar.attached? else nil
       render json: {
         status: 'SUCCESS',
         message: 'User saved',
         data: @user,
-        avatar: url_for(@user.avatar)},
+        avatar: avatar},
         status: :created
     else
       render json: {
@@ -33,6 +33,7 @@ class UsersController < ApplicationController
       @avatar = @user.avatar
       @reviews = @user.reviews
       average_stars = calc_average_stars(@reviews)
+      avatar = url_for(@user.avatar) if @user.avatar.attached? else nil
       render json: {
         status: 'SUCCESS',
         success: true,
@@ -45,7 +46,7 @@ class UsersController < ApplicationController
         access_token: @user['access_token'],
         rating: average_stars,
         #data: @user,
-        avatar: url_for(@user.avatar)},
+        avatar: avatar},
         status: :ok
     end
   end
@@ -64,6 +65,7 @@ class UsersController < ApplicationController
       @avatar = @user.avatar
       @reviews = @user.reviews
       average_stars = calc_average_stars(@reviews)
+      avatar = url_for(@user.avatar) if @user.avatar.attached? else nil
       render json: {
         status: 'SUCCESS',
         success: true,
@@ -76,7 +78,7 @@ class UsersController < ApplicationController
         access_token: @user['access_token'],
         rating: average_stars,
         #data: @user,
-        avatar: url_for(@user.avatar)},
+        avatar: avatar},
         status: :ok
     end
   end
@@ -92,11 +94,12 @@ class UsersController < ApplicationController
       @user.save!
     end
     if @user.update(user_update_params)
+      avatar = url_for(@user.avatar) if @user.avatar.attached? else nil
       render json: {
         status: 'SUCCESS',
         message: 'User updated',
         data: @user,
-        avatar: url_for(@user.avatar)},
+        avatar: avatar},
         status: :ok
     else
       render json: {
