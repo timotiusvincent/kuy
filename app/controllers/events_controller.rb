@@ -37,6 +37,8 @@ class EventsController < ApplicationController
       @event['participants_id'] = ''
       @event['participants_count'] = 1
       @event['status'] = 0
+      user = User.find(params[:host_id])
+      @event['host_name'] = user['name']
       if @event.save
         user_id = params[:host_id]
         @active_event = UserActiveEvent.new()
